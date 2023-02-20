@@ -3,19 +3,17 @@ import pickle
 import face_recognition
 import os
 
-
 #Student images
 folderPath = "Images"
 pathList = os.listdir(folderPath)
+#print(pathList)
 
 imgList = []
 studentIDs = []
 for path in pathList:
     imgList.append(cv2.imread(os.path.join(folderPath,path)))
     studentIDs.append(os.path.splitext(path)[0])
-
-print(studentIDs)
-
+#print(studentIDs)
 
 def findEncodings(imagesList):
     encodeList = []
@@ -28,5 +26,11 @@ def findEncodings(imagesList):
 
 print("Encoding started...")
 encodeListKnown = findEncodings(imgList)
-print(encodeListKnown)
-print("Encoding finished")
+encodeListKnownWithIDs = [encodeListKnown, studentIDs]
+#print(encodeListKnown)
+print("Encoding finished!")
+
+#Saving file
+file = open("EncodeFile.p", 'wb')
+pickle.dump(encodeListKnownWithIDs, file)
+file.close()
